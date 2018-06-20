@@ -23,3 +23,17 @@ Regolith Features:
     * example: `local pure function theFuture(Timer timer, number seconds) -> number return timer.now() + seconds end`
  * partial function application
     * calling functions without all parameters returns a new function that takes the remaining parameters
+
+## Tooling
+
+They key motivator of adding static typing to Lua is to enable a rich set of features that will improve Lua's portability, scalability, and accesability. 
+
+ * Portability: With AST generation and static typing the ability to create a diverse set of compilation and transpilation tools emerges
+    * WASM?! ARM?! Shaders?! C transpilation?! JavaScript transpilation?! Yes please
+ * Scalability: Strong compile time knowledge of code will allow for tools that enable easy maintainence of large code bases
+    * >>>> go to definition <<<<
+ * Accesability: Compile time code knowledge and the development with accesability in mind from the start will enable a wide range of beginner-friendly features
+    * Advanced debugging with forward-and-back stepping
+    * Syntax tree visualizations
+    * Relevant tips and refactorings
+    * Runtime state visualizations and history
