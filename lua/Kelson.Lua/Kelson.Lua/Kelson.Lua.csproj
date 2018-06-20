@@ -12,4 +12,9 @@
     <ProjectReference Include="..\Kelson.Lua.Antlr\Kelson.Lua.Antlr.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Generated\" />
+    <Folder Include="Ast\" />
+  </ItemGroup>
+
 </Project>
