@@ -1,0 +1,1 @@
+This directory contains a number of exploratory examples of what I hope Regolith might look like when completed. 
