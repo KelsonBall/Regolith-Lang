@@ -2,7 +2,7 @@
 
 This repository contains two closely alligned projects: Lua for dotnet, and Regolith
 
-The first is to implement Lua 5.3 in dotnet and provide tools and packages for it to be used in or *as* dotnet projects, with support for importing dotnet libraries using `require`, using Lua's `:` operator to pipe to instance methods and extension methods, and treating Lua iterators as `IEnumerable<dynamic>` to allow for direct use of Linq extension methods.
+The first is to implement Lua 5.3 in dotnet and provide tools and packages for it to be used in or *as* dotnet projects, with support for importing dotnet libraries using `require`, using Lua's `:` operator to pipe to instance methods and extension methods, and treating Lua iterators as `IEnumerable<dynamic>` to allow for direct use of Linq extension methods. This is intended as a 'learning step' in the development of Regolith, and is not intended as a long term, maintained way of adding Lua scripting functionality to dotnet programs.
 
 The second project is a new language called Regolith that is inspired by Lua, Typescript, and F#. 
 
