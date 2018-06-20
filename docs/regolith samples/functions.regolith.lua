@@ -1,5 +1,6 @@
 -- a pure function takes 0 or more constant parameters and returns 0 or more results
 -- it does not have access to global or parent scopes
+-- pure functions that have 0 return values can't do anything by definition, so can be safely ignored by interpreters and compilers
 local pure function add(number a, number b) -> number
     return a + b;
 end
