@@ -1,6 +1,6 @@
 # Regolith-Lang
 
-This project contains two closely alligned projects,
+This repository contains two closely alligned projects: Lua for dotnet, and Regolith
 
 The first is to implement Lua 5.3 in dotnet and provide tools and packages for it to be used in or *as* dotnet projects, with support for importing dotnet libraries using `require`, using Lua's `:` operator to pipe to instance methods and extension methods, and treating Lua iterators as `IEnumerable<dynamic>` to allow for direct use of Linq extension methods.
 
