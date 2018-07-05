@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kelson.Lua", "Kelson.Lua\Kelson.Lua.csproj", "{3013B680-87CD-4DED-BFAD-6A383D5A8105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kelson.Lua", "Kelson.Lua\Kelson.Lua.csproj", "{3013B680-87CD-4DED-BFAD-6A383D5A8105}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kelson.Lua.Antlr", "Kelson.Lua.Antlr\Kelson.Lua.Antlr.csproj", "{B277BA88-2F0C-4257-A484-3D010C9E8F57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kelson.Lua.Antlr", "Kelson.Lua.Antlr\Kelson.Lua.Antlr.csproj", "{B277BA88-2F0C-4257-A484-3D010C9E8F57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kelson.Lua.Repl", "Kelson.Lua.Repl\Kelson.Lua.Repl.csproj", "{D59949C5-3F7E-467C-919C-996618CDB5EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kelson.Lua.Repl", "Kelson.Lua.Repl\Kelson.Lua.Repl.csproj", "{D59949C5-3F7E-467C-919C-996618CDB5EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kelson.Lua.CodeGen", "Kelson.Lua.CodeGen\Kelson.Lua.CodeGen.csproj", "{90489E45-727D-4B4C-9563-589B4CA0A8E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kelson.Lua.CodeGen", "Kelson.Lua.CodeGen\Kelson.Lua.CodeGen.csproj", "{90489E45-727D-4B4C-9563-589B4CA0A8E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kelson.CommonAst", "Kelson.CommonAst\Kelson.CommonAst.csproj", "{99F13043-A4C7-460A-8E03-1C334064394C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{90489E45-727D-4B4C-9563-589B4CA0A8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90489E45-727D-4B4C-9563-589B4CA0A8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90489E45-727D-4B4C-9563-589B4CA0A8E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F13043-A4C7-460A-8E03-1C334064394C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F13043-A4C7-460A-8E03-1C334064394C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F13043-A4C7-460A-8E03-1C334064394C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F13043-A4C7-460A-8E03-1C334064394C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

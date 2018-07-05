@@ -94,7 +94,6 @@ A binary number
 
 Numbers with `_` seperators (these do not effect the value of the number)
 ```lua
--- unique to Regolith
 100_000_000.0
 0x66_33_99
 0b1010_0100
@@ -128,9 +127,9 @@ An assignment of a single value to a single identifier
 x = 3
 
 -- State:
---{
---  x = 3
---}
+-- [
+--   x = 3
+-- ]
 ```
 
 
@@ -139,10 +138,10 @@ An assignment of multiple values to multiple identifiers
 x, y = 3, 4
 
 -- State:
---{
---  x = 3
---  y = 4
---}
+-- [
+--   x = 3
+--   y = 4
+-- ]
 ```
 
 Variables are read from the current scope using their identifier
@@ -153,10 +152,10 @@ x = 3
 y = x
 
 -- State:
---{
---  x = 3
---  y = 3
---}
+-- [
+--   x = 3
+--   y = 3
+-- ]
 ```
 
 ### Scope
@@ -167,25 +166,25 @@ A variable can be constrained to a specific scope using a `block`
 x = 3
 
 -- State:
---{
---  x = 3
---}
+-- [
+--   x = 3
+-- ]
 
 do
     y = 4
 -- State:
---{
---  {
+-- [
+--   [
 --      y = 4
---  }
---  x = 3
---}
+--   ]
+--   x = 3
+-- ]
 end
 
 -- State:
---{
---  x = 3
---}
+-- [
+--   x = 3
+-- ]
 ```
 
 By default, variables in 'outer' or 'parent' scopes can be mutated
@@ -194,23 +193,23 @@ By default, variables in 'outer' or 'parent' scopes can be mutated
 x = 3
 do
 -- State:
---{
---  {
---  }
---  x = 3
---}
+-- [
+--   [
+--   ]
+--   x = 3
+-- ]
     x = 4
 -- State:
---{
---  {
---  }
---  x = 4
---}
+-- [
+--   [
+--   ]
+--   x = 4
+-- ]
 end
 -- State:
---{
---  x = 4
---}
+-- [
+--   x = 4
+-- ]
 ```
 
 Variables can be marked `local` to specify that they exist in the inner scope and 'override' values in the outer scope
@@ -220,39 +219,74 @@ x = 3
 y = 0
 do
 -- State:
---{
---  {
---  }
---  x = 3
---  y = 0
---}
+-- [
+--   [
+--   ]
+--   x = 3
+--   y = 0
+-- ]
     local x = 4
 -- State:
---{
---  {
---    x = 4
---  }
---  x = 3
---  y = 0
---}
+-- [
+--   [
+--     x = 4
+--   ]
+--   x = 3
+--   y = 0
+-- ]
     y = x
  -- State:
---{
---  {
---    x = 4
---  }
---  x = 3
---  y = 4
---}   
+-- [
+--   [
+--     x = 4
+--   ]
+--   x = 3
+--   y = 4
+-- ]   
 end
 -- State:
---{
---  x = 3
---  y = 4
---}
+-- [
+--   x = 3
+--   y = 4
+-- ]
 ```
 
-### Control
+Variables can be marked `constant` to indicate that they cannot be modified, and anything accessed via the constant variable is also constant.
+
+```lua
+constant x = 3
+-- State:
+-- [
+--   x = 3
+-- ]
+
+-- ERROR: attempt to assign value '2' to constant 'x'
+x = 2
+
+do
+    local x = 2
+-- State:
+-- [
+--   [
+--      x = 2
+--   ]
+--   x = 3
+-- ]
+end
+
+constant data = { "x" = 1, "y" = { "z" = 2 } }
+-- ERROR: attempt to assign value from a constant to mutable value 'x'
+x = data.x
+
+constant x = data.x
+
+-- ERROR: attempt to assign value from a constant to mutable value 'y'
+z = data.y.z
+
+constant z = data.y.z
+```
+
+### Flow Control
 
 Basic control flow in Regolith is handled with traditional `if` statements for branching and `for` and `while` loops for iteration.
 
@@ -269,23 +303,23 @@ end
 ```lua
 local count = 0
 -- State:
---{
---  count = 0
---}
+-- [
+--   count = 0
+-- ]
 if false then
     count = count + 1
 end
 -- State:
---{
---  count = 0
---}
+-- [
+--   count = 0
+-- ]
 if true then
     count = count + 1
 end
 -- State:
---{
---  count = 1
---}
+-- [
+--   count = 1
+-- ]
 ```
 
 Control structures have their own scopes
@@ -295,12 +329,12 @@ local x = true
 if x then
     local x = 2
 -- State:
---{
---  {
---    x = 2
---  }
---  x = true
---}
+-- [
+--   [
+--     x = 2
+--   ]
+--   x = true
+-- ]
 end
 ```
 
@@ -372,9 +406,9 @@ while x > 0 do
     x = x - 1
 end
 --State
---{
---  x = 0
---}
+-- [
+--   x = 0
+-- ]
 ```
 
 The `break` and `continue` keywords behave the same in all loop types.
@@ -418,26 +452,26 @@ Here is an example of counting down a variable to demonstrate the difference
 
 local x = -2
 --State
---{
---  x = -2
---}
+-- [
+--   x = -2
+-- ]
 
 while x > 0 do
     x = x - 1 -- x > 0 evaluated to false, so this statement is not executed
 end
 --State
---{
---  x = -2
---}
+-- [
+--   x = -2
+-- ]
 
 local x = -2
 repeat 
     x = x - 1 -- statement is executed before condition is tested
 until x <= 0 -- condition evaluates to false so loop is not repeated
 --State
---{
---  x = -3
---}
+-- [
+--   x = -3
+-- ]
 ```
 
 #### For range loops
@@ -543,7 +577,7 @@ type Table of TKey, TValue is IEnumerable of KeyValuePair of TKey, TValue end
 For in loop examples with tables
 
 ```lua
-for pair in { "x" = 2, "y" = 3 } do
+for pair in { x = 2, y = 3 } do
     print(pair.key, pair.value)
 end
 -- output:
@@ -567,7 +601,154 @@ local iterator = ipairs({1, 2, 3})
 local dotnet_enumerable = enumerable(iterator)
 ```
 
-Collections in Regolith are IEnumerables, so they can
+### Functions
+
+Regolith functions are blocks that can take 0 or more parameters, act on those parameters within their scope, and then return 0 or more values to the scope that executed the function.
+
+Basic function definition statements follow this structure
+```lua
+[local] [pure] [partial] function  name( parameterlist ) [-> typelist]
+    -- block
+end
+```
+
+A function that takes no parameters, does nothing with them, and then returns no results looks like this
+```lua
+function name() end
+```
+
+A function can also be created as an expression rather than a statement, with either the statement style syntax or an inline lambdra style syntax
+
+Function expression
+```lua
+local name = [pure] [partial] function( parameterlist ) [-> typelist]
+    -- block
+end
+```
+
+Lambdra expression
+```lua
+local name = [pure] [partial] ( parameterlist ) -> { typelist | () } -- statement
+```
+Type signatures for functions follow the form
+```
+( () | [type] ... | type [, type ]* [, [ type ] ...] ) -> () | [type] ... | type [, type]* [, [type] ... ]
+```
+
+The type signature `(number, number, string ...) -> RollerCoaster` would be read as "maps a number, a number, and a list of strings to a Roller Coaster"
+
+Parameter lists contain 0 or more parameters seperated by commas and optionally ending with a `varargs` expression
+```lua
+-- function named 'foo' with empty parameter list
+function foo() end
+-- type signature () -> ()
+
+-- evaluating foo
+foo()
+
+-- function with a single parameter named 'x' of type 'any'
+function foo(x) end
+-- type signature (any) -> ()
+
+-- evaluating foo
+foo(3)
+foo("hello")
+foo(nil) -- x can have any type
+
+-- function with two parameters named 'x' and 'y' of type 'any'
+function foo(x, y) end
+-- type signature (any, any) -> ()
+
+-- evaluating foo
+foo(3, "")
+
+-- function with one parameter named 'x' of type 'number'
+function foo(number x) end
+-- type signature (number) -> ()
+
+-- evaluating foo
+foo(3)
+-- ERROR: cannot assign value "hello" to parameter 'x' of type 'number'
+foo("hello")
+
+-- function with two parameter, the first named 'x' of type 'number' and the second named 'name' of type 'string'
+function foo(number x, string name) end
+-- type signature (number, string) -> ()
+
+-- function that takes a parameter named '...' of type 'list of any'
+function foo(...) end
+-- type signature (...) -> ()
+
+-- function that takes one parameter named 'x' of type number and a parameter named '...' of type 'list of string'
+function foo(number x, string ...) end
+-- type signature (number, string ...) -> ()
+```
+
+Function return types are described with typelists
+```lua
+-- function that takes no parameters nad returns no values
+function foo() end
+--type signature () -> ()
+
+-- function that takes no parameters and returns a number
+function foo() -> number
+    return 1
+end
+-- type signature () -> number
+
+-- function that returns two numbers
+function foo() -> number, number
+    return 1, 2
+end
+-- type signature () -> number, number
+
+-- function that takes a bool and may return a number or a string
+function foo(bool text) -> number or string
+    if text then
+        return "this is a string"
+    else
+        return 1
+    end
+end
+-- type signature (bool) -> number or string
+
+-- function that takes varargs of any and returns varargs of any
+function foo(...) -> ...
+    return ...
+end
+-- type signature (...) -> ...
+
+-- function that takes varargs of number and returns varargs of string
+function foo(number ...) -> string ...
+    local args = {...}
+    for pair in args do
+        args[pair.key] = pair.value.ToString()
+    end
+    return |args|
+end
+-- type signature (number ...) -> string ...
+```
+
+Functions can be marked `pure`, disallowing access of scopes outside their own and marking all parameters `constant`
+
+```lua
+-- example of a pure function that adds 2 numbers
+local pure function add(number a, number b) -> number
+    return a + b
+end
+
+x = 3
+local pure function addToX(number a) 
+    -- ERROR: No local value named 'x', pure functions cannot access values outside their scope
+    x = x + a
+end
+
+data = { x = 2, y = 3 }
+
+```
+
+
+
 ## Tooling
 
 
