@@ -28,11 +28,11 @@ type BagleShop has
 end
 
 local BagleShop my_shop = {
-    "bagles" = 10,
-    "addBagles" = function (self, number newBagles)
+    bagles = 10,
+    addBagles = function (self, number newBagles)
         self.bagles = self.bagles + newBagles
     end,
-    "inventoryValue" = pure function(self, number value) -> number
+    inventoryValue = pure function(self, number value) -> number
         return self.bagles * value
     end
 }
